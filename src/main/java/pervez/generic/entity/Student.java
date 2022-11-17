@@ -20,4 +20,6 @@ public class Student extends BaseEntity{
 
 	private String address;	
 	
+
+	
 }

@@ -5,10 +5,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Restmain {
+	
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+public static void main(String[] args) {
+		
 SpringApplication.run(Restmain.class, args);
+
+
 	}
 
 }

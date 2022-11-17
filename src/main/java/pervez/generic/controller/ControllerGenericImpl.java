@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import pervez.generic.entity.BaseEntity;
+import pervez.generic.entity.Student;
 import pervez.generic.repository.GenericRepository;
 import pervez.generic.service.ServiceGeneric;
 
@@ -25,15 +26,11 @@ import java.util.Optional;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @ResponseBody
 public class ControllerGenericImpl<T extends BaseEntity> implements ControllerGeneric<T> {
-
+private T t;
     @Autowired
     private ServiceGeneric<T> genericService;
-    @Autowired
-    private GenericRepository<T> repo;
     
-  
    
-    
     @Override
     @PostMapping("/create")
     public ResponseEntity<Object> save(@RequestBody T entity)  {
@@ -41,9 +38,25 @@ public class ControllerGenericImpl<T extends BaseEntity> implements ControllerGe
             return new ResponseEntity(genericService.save(entity), HttpStatus.OK);
  
     }
-
-  
     
+	@Override
+	@GetMapping("/delete")
+	public ResponseEntity<T> delete(Long id) {
+		// TODO Auto-generated method stub
+		T t=genericService.findById(id);
+		genericService.delete(id);
+return  new ResponseEntity(t,HttpStatus.OK);
+	}
+
+
+
+	@Override
+	@PostMapping("/update")
+	public ResponseEntity<T> update(T entity) {
+		// TODO Auto-generated method stub
+return new ResponseEntity(genericService.update(entity), HttpStatus.OK);
+	}
+	
     @Override
     @GetMapping("/getall")
     public ResponseEntity<T> findAll(){
@@ -56,31 +69,10 @@ public class ControllerGenericImpl<T extends BaseEntity> implements ControllerGe
     @Override
     @GetMapping("/get/{id}")
     public ResponseEntity<T> findById(@PathVariable Long id){
-             Optional<T> t = genericService.findById(id);
-            return new ResponseEntity(t, HttpStatus.OK);
+
+            return new ResponseEntity(   genericService.findById(id), HttpStatus.OK);
   
     }
-
-
-
-	@Override
-	@GetMapping("/delete")
-	public ResponseEntity<T> delete(T entity) {
-		// TODO Auto-generated method stub
-		
-		  repo.delete(entity);
-return  new ResponseEntity(entity,HttpStatus.OK);
-	}
-
-
-
-	@Override
-	@GetMapping("/update")
-	public ResponseEntity<T> update(T entity) {
-		// TODO Auto-generated method stub
-return new ResponseEntity(genericService.update(entity), HttpStatus.OK);
-	}
-
 
 
 }
